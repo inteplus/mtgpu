@@ -40,7 +40,7 @@ def get_mem_info_impl():
             if bus.startswith("0000:"):
                 bus = bus[5:]
             lspci = _sp.check_output(['lspci', '-s', bus]).decode().strip()
-            gpu['name'] = lspci[lspci.find(' '):]
+            gpu['name'] = lspci[lspci.find(' ')+1:]
 
             gpu['fan_speed'] = rs.getFanSpeed(device_name)
 
