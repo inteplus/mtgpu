@@ -5,9 +5,6 @@ import subprocess as _sp
 import os.path as _op
 
 
-__all__ = ['detect_machine']
-
-
 def detect_machine():
     '''Detects the machine architecture.
 
