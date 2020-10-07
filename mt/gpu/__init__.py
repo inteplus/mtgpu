@@ -18,6 +18,10 @@ def get_gpu_info():
         from .arch_amd64_nvidia import get_gpu_info_impl
         return get_gpu_info_impl()
     
+    if arch == 'amd64-amd':
+        from .arch_amd64_amd import get_gpu_info_impl
+        return get_gpu_info_impl()
+    
     if arch == 'unknown':
         return None
 
