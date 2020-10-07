@@ -1,5 +1,5 @@
-# mtstreamz
-Minh-Tri's extension of the streamz Python library.
+# mtgpu
+Minh-Tri's approach to detect GPU capacities.
 
 ## Documentation
 

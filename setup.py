@@ -1,22 +1,20 @@
 #!/usr/bin/env python3
 
 from setuptools import setup, find_namespace_packages
-from mt.streamz.version import version
+from mt.gpu.version import version
 
-setup(name='mtstreamz',
+setup(name='mtgpu',
       version=version,
-      description="Minh-Tri Pham's extension of the streamz Python library",
+      description="Minh-Tri Pham's approach to detect gpu capacity",
       author=["Minh-Tri Pham"],
       packages=find_namespace_packages(include=['mt.*']),
       install_requires=[
-          'tornado>=6.0.4', # 2020/08/27: tornado 6 is needed and distributed must be >= v2.24.0
-          'dask>=2.24.0', # for simple multiprocessing jobs
-          'distributed>=2.24.0',  # for simple multiprocessing jobs
-          'streamz>=0.5.5', # for streaming
+          # 'pynvml', # if you have nvidia gpus, install this package
+          # 'rocm-smi', # if you have amdgpu cards, the rocm image should contain this package. Otherwise install it.
       ],
-      url='https://github.com/inteplus/mtstreamz',
+      url='https://github.com/inteplus/mtgpu',
       project_urls={
-          'Documentation': 'https://mtdoc.readthedocs.io/en/latest/mt.streamz/mt.streamz.html',
-          'Source Code': 'https://github.com/inteplus/mtstreamz',
+          'Documentation': 'https://mtdoc.readthedocs.io/en/latest/mt.gpu/mt.gpu.html',
+          'Source Code': 'https://github.com/inteplus/mtgpu',
           }
       )
