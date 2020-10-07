@@ -1,6 +1,8 @@
 '''Module specific to amd64-amd arch.'''
 
 
+import psutil as _pu
+
 try:
     import rocm_smi as rs
 except ImportError:
@@ -12,15 +14,19 @@ except ImportError:
         raise RuntimeError("Module 'rocm_smi.py' is required on a machine with an AMDGPU card. It should come with the rocm docker image by default. Please consult rocm to install it.")
 
 
-def get_gpu_info_impl():
+def get_mem_info_impl():
     res = {}
 
+    mem_info = _pu.virtual_memory()
+    res['cpu_mem_free'] = mem_info.free
+    res['cpu_mem_used'] = mem_info.used
+    res['cpu_mem_total'] = mem_info.total
+    res['cpu_mem_shared_with_gpu'] = False
+    
     device_names = rs.listDevices(False)
     device_names = [x for x in device_names if rs.checkAmdGpus([x])]
-    res['shared_memory_with_cpu'] = False
 
     if device_names:
-        res['has_gpu'] = True
         gpus = []
 
         for device_name in device_names:
@@ -40,7 +46,6 @@ def get_gpu_info_impl():
         res['gpus'] = gpus
     else:
         res['gpus'] = []
-        res['has_gpu'] = False
         
     
     return res

@@ -1,27 +1,34 @@
 '''Module specific to amd64-nvidia arch.'''
 
 
+import psutil as _pu
+
 try:
     from pynvml import *
 except ImportError:
     raise RuntimeError("Package 'pynvml' is required on a machine with an Nvidia GPU card. Please install pynvml using pip.")
 
 
-def get_gpu_info_impl():
+def get_mem_info_impl():
     res = {}
 
+    mem_info = _pu.virtual_memory()
+    res['cpu_mem_free'] = mem_info.free
+    res['cpu_mem_used'] = mem_info.used
+    res['cpu_mem_total'] = mem_info.total
+    res['cpu_mem_shared_with_gpu'] = False
+
     nvmlInit()
-    res['shared_memory_with_cpu'] = False
-    res['driver_version'] = nvmlSystemGetDriverVersion().decode()
+    driver_version = nvmlSystemGetDriverVersion().decode()
     deviceCount = nvmlDeviceGetCount()
     if deviceCount:
-        res['has_gpu'] = True
         gpus = []
         for i in range(deviceCount):
             gpu = {}
             handle = nvmlDeviceGetHandleByIndex(i)
             
             gpu['name'] = nvmlDeviceGetName(handle).decode()
+            gpu['driver_version'] = driver_version
 
             mem_info = nvmlDeviceGetMemoryInfo(handle)
             gpu['mem_free'] = mem_info.free
@@ -33,7 +40,6 @@ def get_gpu_info_impl():
         res['gpus'] = gpus
     else:
         res['gpus'] = []
-        res['has_gpu'] = False
 
     nvmlShutdown()
 
