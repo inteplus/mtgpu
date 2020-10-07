@@ -1,6 +1,7 @@
 '''Module specific to amd64-amd arch.'''
 
 
+import subprocess as _sp
 import psutil as _pu
 
 try:
@@ -32,8 +33,16 @@ def get_mem_info_impl():
         for device_name in device_names:
             gpu = {}
             
-            gpu['name'] = device_name
+            gpu['bus'] = rs.getBus(device_name)
             gpu['driver_version'] = rs.getVersion([device_name], 'driver')
+
+            bus = gpu['bus']
+            if bus.startswith("0000:"):
+                bus = bus[5:]
+            lspci = _sp.check_output(['lspci', '-s', bus]).decode().strip()
+            gpu['name'] = lspci[lspci.find(' '):]
+
+            gpu['fan_speed'] = rs.getFanSpeed(device_name)
 
             mem_info = rs.getMemInfo(device_name, 'vram')
             

@@ -30,6 +30,9 @@ def get_mem_info_impl():
             gpu['name'] = nvmlDeviceGetName(handle).decode()
             gpu['driver_version'] = driver_version
 
+            gpu['bus'] = nvmlDeviceGetPciInfo(handle).busId.decode()
+            gpu['fan_speed'] = nvmlDeviceGetFanSpeed(handle)
+
             mem_info = nvmlDeviceGetMemoryInfo(handle)
             gpu['mem_free'] = mem_info.free
             gpu['mem_used'] = mem_info.used
