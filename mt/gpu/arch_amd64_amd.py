@@ -16,7 +16,7 @@ def get_gpu_info_impl():
     res = {}
 
     device_names = rs.listDevices(False)
-    device_names = [x for x in devices_names if rs.checkAmdGpus([x])]
+    device_names = [x for x in device_names if rs.checkAmdGpus([x])]
     res['shared_memory_with_cpu'] = False
 
     if device_names:
@@ -31,9 +31,9 @@ def get_gpu_info_impl():
 
             mem_info = rs.getMemInfo(device_name, 'vram')
             
-            gpu['mem_free'] = mem_info[0]
-            gpu['mem_total'] = mem_info[1]
-            gpu['mem_used'] = gpu['mem_total'] - gpu['mem_free']
+            gpu['mem_used'] = int(mem_info[0])
+            gpu['mem_total'] = int(mem_info[1])
+            gpu['mem_free'] = gpu['mem_total'] - gpu['mem_used']
 
             gpus.append(gpu)
 
