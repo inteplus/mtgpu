@@ -22,6 +22,10 @@ def get_mem_info():
         from .arch_amd64_amd import get_mem_info_impl
         return get_mem_info_impl()
     
+    if arch in ['arm64-tx1', 'arm64-tx2', 'arm64-j43']:
+        from .arch_tegra import get_mem_info_impl
+        return get_mem_info_impl()
+    
     if arch == 'unknown':
         return None
 
