@@ -10,6 +10,7 @@ setup(name='mtgpu',
       packages=find_namespace_packages(include=['mt.*']),
       install_requires=[
           'psutil', # for getting cpu memory usage
+          'tqdm', # nice printout
           # 'pynvml', # if you have nvidia gpus, install this package
           # 'rocm-smi', # if you have amdgpu cards, the rocm image should contain this package. Otherwise install it.
       ],
