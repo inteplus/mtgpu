@@ -39,12 +39,14 @@ def get_mem_info(print_bars=False):
 
         cpu_desc = 'cpu_gpu' if is_cgpu else 'cpu'
         cpu_bar = tqdm(desc='cpu', total=res['cpu_mem_total']//MB, initial=res['cpu_mem_used']//MB, unit='MB', bar_format='{l_bar}{bar}|{n_fmt}/{total_fmt} {unit}')
+        cpu_bar.display()
+        cpu_bar.close()
 
         if not is_cgpu:
-            gpu_bars = []
             for i, gpu in enumerate(res['gpus']):
                 gpu_desc = 'gpu {} ({})'.format(i, gpu['name'])
                 gpu_bar = tqdm(desc=gpu_desc, total=gpu['mem_total']//MB, initial=gpu['mem_used']//MB, unit='MB', bar_format='{l_bar}{bar}|{n_fmt}/{total_fmt} {unit}')
-                gpu_bars.append(gpu_bars)
+                gpu_bar.display()
+                gpu_bar.close()
 
     return res
