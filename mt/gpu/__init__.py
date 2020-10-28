@@ -27,7 +27,7 @@ def get_mem_info(print_bars=False):
         res = get_mem_info_impl()
     elif arch in ['arm64-tx1', 'arm64-tx2', 'arm64-j43']:
         from .arch_tegra import get_mem_info_impl
-        res = get_mem_info_impl()
+        res = get_mem_info_impl(arch)
     elif arch == 'unknown':
         res = None
 

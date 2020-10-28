@@ -5,7 +5,15 @@ import subprocess as _sp
 import psutil as _pu
 
 
-def get_mem_info_impl():
+arch2gpu = {
+    'arm64-tk1': 'TK1',
+    'arm64-tx1': 'TX1',
+    'arm64-tx2': 'TX2',
+    'arm64-j43': 'TX2'
+    }
+
+
+def get_mem_info_impl(arch):
     res = {}
 
     mem_info = _pu.virtual_memory()
@@ -18,7 +26,7 @@ def get_mem_info_impl():
     gpu['mem_free'] = res['cpu_mem_free']
     gpu['mem_used'] = res['cpu_mem_used']
     gpu['mem_total'] = res['cpu_mem_total']
-    gpu['name'] = 'TBD'
+    gpu['name'] = arch2gpu.get(arch, 'Unknown')
     
     res['gpus'] = [gpu]
     
