@@ -38,7 +38,7 @@ def get_mem_info(print_bars=False):
         is_cgpu = res.get('cpu_mem_shared_with_gpu', False)
 
         cpu_desc = 'cpu_gpu' if is_cgpu else 'cpu'
-        cpu_bar = tqdm(desc='cpu', total=res['cpu_mem_total']//MB, initial=res['cpu_mem_used']//MB, unit='MB', bar_format='{l_bar}{bar}|{n_fmt}/{total_fmt} {unit}')
+        cpu_bar = tqdm(desc=cpu_desc, total=res['cpu_mem_total']//MB, initial=res['cpu_mem_used']//MB, unit='MB', bar_format='{l_bar}{bar}|{n_fmt}/{total_fmt} {unit}')
         cpu_bar.display()
         cpu_bar.close()
 
