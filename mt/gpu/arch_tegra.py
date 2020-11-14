@@ -6,10 +6,10 @@ import psutil as _pu
 
 
 arch2gpu = {
-    'arm64-tk1': 'TK1',
-    'arm64-tx1': 'TX1',
-    'arm64-tx2': 'TX2',
-    'arm64-j43': 'TX2'
+    'arm64-tk1': 'NVIDIA Jetson TK1',
+    'arm64-tx1': 'NVIDIA Jetson TX1',
+    'arm64-tx2': 'NVIDIA Jetson TX2',
+    'arm64-j43': 'NVIDIA Jetson TX2'
     }
 
 
