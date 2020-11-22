@@ -23,8 +23,11 @@ def get_mem_info_impl():
     res['cpu_mem_used'] = mem_info.used
     res['cpu_mem_total'] = mem_info.total
     res['cpu_mem_shared_with_gpu'] = False
-    
-    device_names = rs.listDevices(False)
+
+    try:
+        device_names = rs.listDevices(False)
+    except TypeError:
+        device_names = rs.listDevices() # 1.4.1 or later
     device_names = [x for x in device_names if rs.checkAmdGpus([x])]
 
     if device_names:
@@ -34,7 +37,9 @@ def get_mem_info_impl():
             gpu = {}
             
             gpu['bus'] = rs.getBus(device_name)
-            gpu['driver_version'] = rs.getVersion([device_name], 'driver')
+            z = rs.getVersion([device_name], 'driver')
+            if z is not None:
+                gpu['driver_version'] = z
 
             bus = gpu['bus']
             if bus.startswith("0000:"):
