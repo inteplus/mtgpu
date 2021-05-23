@@ -46,6 +46,8 @@ def detect_machine():
 
         # TX2
         kernel_version = _sp.check_output(['uname', '-r']).decode().strip()
+        if kernel_version.startswith("4.9.201"):
+            return "arm64-j45"
         if kernel_version.startswith("4.9.140"):
             return "arm64-j43"
         if kernel_version.startswith("4.4"):

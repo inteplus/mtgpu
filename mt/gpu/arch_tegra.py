@@ -8,8 +8,9 @@ import psutil as _pu
 arch2gpu = {
     'arm64-tk1': 'NVIDIA Jetson TK1',
     'arm64-tx1': 'NVIDIA Jetson TX1',
-    'arm64-tx2': 'NVIDIA Jetson TX2',
-    'arm64-j43': 'NVIDIA Jetson TX2'
+    'arm64-tx2': 'NVIDIA Jetson TX2 with JetPack 3.2 or 3.3',
+    'arm64-j43': 'NVIDIA Jetson TX2 with JetPack 4.3',
+    'arm64-j45': 'NVIDIA Jetson TX2 with JetPack 4.5',
     }
 
 
