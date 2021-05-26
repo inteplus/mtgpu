@@ -21,7 +21,9 @@ def detect_machine():
     - "arm64-tk1" : an Nvidia Tegra K1
     - "arm64-tx1" : an Nvidia Tegra X1
     - "arm64-tx2" : an Nvidia Tegra X2 installed with JetPack 3.3 or earlier
+    - "arm64-j333" : an Nvidia Tegra X2 installed with JetPack 3.3.3
     - "arm64-j43" : an Nvidia Tegra X2 installed with JetPack 4.3
+    - "arm64-j45" : an Nvidia Tegra X2 installed with JetPack 4.5.X
     - "amd64-cpu" : an amd64 PC without any graphic card
     - "amd64-nvidia" : an amd64 PC with Nvidia graphic card(s)
     - "amd64-amd" : and amd64 PC with AMDGPU card(s)
@@ -50,6 +52,8 @@ def detect_machine():
             return "arm64-j45"
         if kernel_version.startswith("4.9.140"):
             return "arm64-j43"
+        if kernel_version.startswith("4.4.197"):
+            return "arm64-j333"
         if kernel_version.startswith("4.4"):
             return "arm64-tx2"
 
