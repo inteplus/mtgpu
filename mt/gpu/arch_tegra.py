@@ -8,11 +8,41 @@ import psutil as _pu
 arch2gpu = {
     'arm64-tk1': 'NVIDIA Jetson TK1',
     'arm64-tx1': 'NVIDIA Jetson TX1',
-    'arm64-tx2': 'NVIDIA Jetson TX2 with JetPack 3.2 or 3.3',
-    'arm64-j333': 'NVIDIA Jetson TX2 with JetPack 3.3.3',
-    'arm64-j43': 'NVIDIA Jetson TX2 with JetPack 4.3',
-    'arm64-j45': 'NVIDIA Jetson TX2 with JetPack 4.5',
+    'arm64-tx2': 'NVIDIA Jetson TX2',
     }
+
+
+version_l4t_to_jetpack = {
+    '28.2.1': '3.3',
+    '28.3': '3.3',
+    '28.3.1': '3.3.1',
+    '28.3.2': '3.3.2',
+    '28.4': '3.3.3',
+    '31.1': '4.1.1',
+    '32.1': '4.2',
+    '32.2': '4.2.1',
+    '32.2.1': '4.2.2',
+    '32.2.3': '4.2.3',
+    '32.3.1': '4.3',
+    '32.4.2': '4.4',
+    '32.4.3': '4.4',
+    '32.4.4': '4.4.1',
+    '32.5': '4.5',
+    '32.5.1': '4.5.1',
+}
+
+
+def detect_l4t_version():
+    kernel_version = _sp.check_output(['uname', '-r']).decode().strip()
+    if kernel_version.startswith("4.4.38"):
+        return "28.2.1"
+    if kernel_version.startswith("4.4.197"):
+        return "28.4"
+    if kernel_version.startswith("4.9.140"):
+        return "32.3.1"
+    if kernel_version.startswith("4.9.201"):
+        return "32.5.1"
+    return "unknown"
 
 
 def get_mem_info_impl(arch):
@@ -29,6 +59,10 @@ def get_mem_info_impl(arch):
     gpu['mem_used'] = res['cpu_mem_used']
     gpu['mem_total'] = res['cpu_mem_total']
     gpu['name'] = arch2gpu.get(arch, 'Unknown')
+    l4t_version = detect_l4t_version()
+    gpu['l4t'] = l4t_version
+    if l4t_version != 'unknown':
+        gpu['jetpack'] = version_l4t_to_jetpack[l4t_version]
     
     res['gpus'] = [gpu]
     
