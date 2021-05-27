@@ -18,6 +18,7 @@ version_l4t_to_jetpack = {
     '28.3.1': '3.3.1',
     '28.3.2': '3.3.2',
     '28.4': '3.3.3',
+    '31.0.1': '4.0',
     '31.1': '4.1.1',
     '32.1': '4.2',
     '32.2': '4.2.1',
@@ -32,16 +33,20 @@ version_l4t_to_jetpack = {
 }
 
 
-def detect_l4t_version():
+def detect_l4t_version_range():
     kernel_version = _sp.check_output(['uname', '-r']).decode().strip()
     if kernel_version.startswith("4.4.38"):
-        return "28.2.1"
+        return ["28.2.1", "28.2.1"]
+    if kernel_version.startswith("4.4.159"):
+        return ["28.3", "28.3.2"]
     if kernel_version.startswith("4.4.197"):
-        return "28.4"
+        return ["28.4", "28.4"]
+    if kernel_version.startswith("4.9.108"):
+        return ["31.0.1", "31.1"]
     if kernel_version.startswith("4.9.140"):
-        return "32.3.1"
+        return ["32.1", "32.4.4"]
     if kernel_version.startswith("4.9.201"):
-        return "32.5.1"
+        return ["32.5", "32.5.1"]
     return "unknown"
 
 
@@ -59,10 +64,11 @@ def get_mem_info_impl(arch):
     gpu['mem_used'] = res['cpu_mem_used']
     gpu['mem_total'] = res['cpu_mem_total']
     gpu['name'] = arch2gpu.get(arch, 'Unknown')
-    l4t_version = detect_l4t_version()
+    l4t_version = detect_l4t_version_range()
     gpu['l4t'] = l4t_version
     if l4t_version != 'unknown':
-        gpu['jetpack'] = version_l4t_to_jetpack[l4t_version]
+        jetpack_version = [version_l4t_to_jetpack[x] for x in l4t_version]
+        gpu['jetpack'] = jetpack_version
     
     res['gpus'] = [gpu]
     
