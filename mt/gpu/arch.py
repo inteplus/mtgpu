@@ -41,7 +41,7 @@ def detect_machine():
         # We expect TK1 to respond '64', TX1 to respond '32', TX2 to respond '24'.
         if chip_id == '64':
             return "arm64-tk1" # obsolete
-        if chip_id == '32':
+        if chip_id in ['32', '33']:
             return "arm64-tx1"
         if chip_id != '24': # need to expand later
             return "unknown"
