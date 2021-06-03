@@ -25,6 +25,9 @@ def get_mem_info(print_bars=False):
     elif arch == 'amd64-amd':
         from .arch_amd64_amd import get_mem_info_impl
         res = get_mem_info_impl()
+    elif arch in ['arm64-rp3', 'arm64-rp4']:
+        from .arch_rpi import get_mem_info_impl
+        res = get_mem_info_impl(arch)
     elif arch in ['arm64-tx1', 'arm64-tx2']:
         from .arch_tegra import get_mem_info_impl
         res = get_mem_info_impl(arch)

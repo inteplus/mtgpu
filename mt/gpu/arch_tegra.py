@@ -64,12 +64,12 @@ def get_mem_info_impl(arch):
     gpu['mem_used'] = res['cpu_mem_used']
     gpu['mem_total'] = res['cpu_mem_total']
     gpu['name'] = arch2gpu.get(arch, 'Unknown')
+    res['gpus'] = [gpu]
+
     l4t_version = detect_l4t_version_range()
-    gpu['l4t'] = l4t_version
+    res['l4t'] = l4t_version
     if l4t_version != 'unknown':
         jetpack_version = [version_l4t_to_jetpack[x] for x in l4t_version]
-        gpu['jetpack'] = jetpack_version
-    
-    res['gpus'] = [gpu]
-    
+        res['jetpack'] = jetpack_version
+
     return res

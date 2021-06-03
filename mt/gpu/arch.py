@@ -17,7 +17,8 @@ def detect_machine():
     -----
     The names correspond to the following architectures:
 
-    - "arm64-rpi" : a Raspberry Pi
+    - "arm64-rp4" : a Raspberry Pi Model 4
+    - "arm64-rp3" : a Raspberry Pi Model 3
     - "arm64-tk1" : an Nvidia Tegra K1
     - "arm64-tx1" : an Nvidia Tegra X1
     - "arm64-tx2" : an Nvidia Tegra X2
@@ -30,9 +31,23 @@ def detect_machine():
     if machine_type == 'aarch64': # arm64
         tegra_chip_id_filepath = '/sys/module/tegra_fuse/parameters/tegra_chip_id'
 
-        if not _op.exists(tegra_chip_id_filepath): # not a Tegra? assume RPi
-            return "arm64-rpi"
-            
+        if not _op.exists(tegra_chip_id_filepath): # not a Tegra? maybe an RPi
+
+            rpi_model_filepath = '/sys/firmware/devicetree/base/model'
+
+            if not _op.exists(rpi_model_filepath):
+                return "unknown" # unknown aarch64
+
+            rpi_model = _sp.check_output(['cat', rpi_model_filepath]).decode().strip()
+
+            if rpi_model.startswith('Raspberry Pi 4'):
+                return "arm64-rp4"
+
+            if rpi_model.startswith('Raspberry Pi 3'):
+                return "arm64-rp3"
+
+            return "unknown": # unknown Raspberry Pi model
+
         # Tegra
         chip_id = _sp.check_output(['cat', tegra_chip_id_filepath]).decode().strip()
         # We expect TK1 to respond '64', TX1 to respond '32', TX2 to respond '24'.
