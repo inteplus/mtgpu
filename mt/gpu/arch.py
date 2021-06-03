@@ -46,7 +46,7 @@ def detect_machine():
             if rpi_model.startswith('Raspberry Pi 3'):
                 return "arm64-rp3"
 
-            return "unknown": # unknown Raspberry Pi model
+            return "unknown" # unknown Raspberry Pi model
 
         # Tegra
         chip_id = _sp.check_output(['cat', tegra_chip_id_filepath]).decode().strip()
