@@ -8,6 +8,9 @@ setup(name='mtgpu',
       description="Minh-Tri Pham's approach to detect gpu capacity",
       author=["Minh-Tri Pham"],
       packages=find_namespace_packages(include=['mt.*']),
+      scripts=[
+          'scripts/detect_machine',
+      ],
       install_requires=[
           'psutil', # for getting cpu memory usage
           'tqdm', # nice printout
