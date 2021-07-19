@@ -22,6 +22,7 @@ def detect_machine():
     - "arm64-tk1" : an Nvidia Tegra K1
     - "arm64-tx1" : an Nvidia Tegra X1
     - "arm64-tx2" : an Nvidia Tegra X2
+    - "arn64-xnx" : an Nvidia Jetson Xavier-NX
     - "amd64-cpu" : an amd64 PC without any graphic card
     - "amd64-nvidia" : an amd64 PC with Nvidia graphic card(s)
     - "amd64-amd" : and amd64 PC with AMDGPU card(s)
@@ -55,6 +56,8 @@ def detect_machine():
             return "arm64-tk1" # obsolete
         if chip_id in ['32', '33']:
             return "arm64-tx1"
+        if chip_id == '25':
+            return "arm64-xnx"
         if chip_id != '24': # need to expand later
             return "unknown"
 

@@ -9,6 +9,7 @@ arch2gpu = {
     'arm64-tk1': 'NVIDIA Jetson TK1',
     'arm64-tx1': 'NVIDIA Jetson TX1',
     'arm64-tx2': 'NVIDIA Jetson TX2',
+    'arm64-xnx': 'NVIDIA Jetson Xavier-NX',
     }
 
 
