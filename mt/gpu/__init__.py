@@ -4,7 +4,7 @@ from .version import version as __version__
 from .arch import detect_machine
 
 
-__all__ = ['detect_machine', 'get_mem_info']
+__all__ = ['detect_machine', 'get_mem_info', 'sort_gpu_devices']
 
 
 def get_mem_info(print_bars=False):
@@ -54,3 +54,12 @@ def get_mem_info(print_bars=False):
                 gpu_bar.close()
 
     return res
+
+
+def sort_gpu_devices():
+    '''Sorts the GPU devices in decreasing order of free memory. Only effective with CUDA hardare.'''
+
+    arch = detect_machine()
+    if arch == 'amd64-nvidia':
+        from .arch_amd64_nvidia import sort_cuda_devices
+        return sort_cuda_devices()

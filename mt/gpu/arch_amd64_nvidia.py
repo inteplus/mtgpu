@@ -26,7 +26,7 @@ def get_mem_info_impl():
         for i in range(deviceCount):
             gpu = {}
             handle = nvmlDeviceGetHandleByIndex(i)
-            
+
             gpu['name'] = nvmlDeviceGetName(handle).decode()
             gpu['driver_version'] = driver_version
 
@@ -50,3 +50,17 @@ def get_mem_info_impl():
     nvmlShutdown()
 
     return res
+
+
+
+def sort_cuda_devices():
+    gpus = get_mem_info_impl()['gpus']
+    if not gpus:
+        return
+
+    indices = [(i, x['mem_free']) for i, x in enumerate(gpus)]
+    indices.sort(key=lambda x: -x[1])
+
+    print(indices)
+
+    
