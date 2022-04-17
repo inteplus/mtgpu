@@ -1,6 +1,7 @@
 '''Module specific to amd64-nvidia arch.'''
 
 
+import os
 import psutil as _pu
 
 try:
@@ -61,6 +62,5 @@ def sort_cuda_devices():
     indices = [(i, x['mem_free']) for i, x in enumerate(gpus)]
     indices.sort(key=lambda x: -x[1])
 
-    print(indices)
-
-    
+    value = ','.join((str(x[0]) for x in indices))
+    os.environ['CUDA_VISIBLE_DEVICES'] = value
