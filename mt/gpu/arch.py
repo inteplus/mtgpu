@@ -23,7 +23,7 @@ def detect_machine():
     - "arm64-tk1" : an Nvidia Tegra K1
     - "arm64-tx1" : an Nvidia Tegra X1
     - "arm64-tx2" : an Nvidia Tegra X2
-    - "arn64-xnx" : an Nvidia Jetson Xavier-NX
+    - "arm64-xnx" : an Nvidia Jetson Xavier-NX
     - "amd64-cpu" : an amd64 PC without any graphic card
     - "amd64-nvidia" : an amd64 PC with Nvidia graphic card(s)
     - "amd64-amd" : and amd64 PC with AMDGPU card(s)
@@ -47,6 +47,9 @@ def detect_machine():
 
             if rpi_model.startswith("Raspberry Pi 3"):
                 return "arm64-rp3"
+
+            if rpi_model.startswith("NVIDIA Jetson Xavier NX Developer Kit"):
+                return "arm64-xnx"
 
             return "unknown"  # unknown Raspberry Pi model
 
