@@ -75,6 +75,7 @@ def get_mem_info_impl(arch):
     gpu["mem_total"] = res["cpu_mem_total"]
     if arch == "arm64-orin":
         name = open("/sys/firmware/devicetree/base/model", "rt").read()
+        name = name.strip(chr(0))
     else:
         name = arch2gpu.get(arch, "Unknown")
     gpu["name"] = name
