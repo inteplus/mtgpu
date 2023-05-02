@@ -49,7 +49,7 @@ def detect_machine():
             # TX2
             return "arm64-tx2"  # need to expand later
 
-        soc_id_filepath = "/sys/devices/soc0/soc.id"
+        soc_id_filepath = "/sys/devices/soc0/soc_id"
         if _op.exists(soc_id_filepath):  # Orin
             soc_id = int(open(soc_id_filepath, "rt").read())
             if soc_id == 35:
