@@ -33,6 +33,7 @@ version_l4t_to_jetpack = {
     "32.5.1": "4.5.1",
     "32.6.1": "4.6",
     "35.1": "5.0.2",
+    "34.0.1": "5.0",
 }
 
 
@@ -52,6 +53,8 @@ def detect_l4t_version_range():
         return ["32.5", "32.5.1"]
     if kernel_version.startswith("4.9.253-tegra"):
         return ["32.6.1"]
+    if kernel_version.startswith("5.10.65-tegra"):
+        return ["34.0.1"]
     if kernel_version.startswith("5.10.104-tegra"):
         return ["35.1"]
     return "unknown"
@@ -70,7 +73,11 @@ def get_mem_info_impl(arch):
     gpu["mem_free"] = res["cpu_mem_free"]
     gpu["mem_used"] = res["cpu_mem_used"]
     gpu["mem_total"] = res["cpu_mem_total"]
-    gpu["name"] = arch2gpu.get(arch, "Unknown")
+    if arch == "arm64-orin":
+        name = open("/sys/firmware/devicetree/base/model", "rt").read()
+    else:
+        name = arch2gpu.get(arch, "Unknown")
+    gpu["name"] = name
     res["gpus"] = [gpu]
 
     l4t_version = detect_l4t_version_range()

@@ -33,7 +33,32 @@ def detect_machine():
     if machine_type == "aarch64":  # arm64
         tegra_chip_id_filepath = "/sys/module/tegra_fuse/parameters/tegra_chip_id"
 
-        if not _op.exists(tegra_chip_id_filepath):  # not a Tegra? maybe an RPi
+        if _op.exists(tegra_chip_id_filepath):  # Tegra TK1, TX1, TX2 or XNX
+
+            chip_id = _sp.check_output(["cat", tegra_chip_id_filepath]).decode().strip()
+            # We expect TK1 to respond '64', TX1 to respond '32', TX2 to respond '24'.
+            if chip_id == "64":
+                return "arm64-tk1"  # obsolete
+            if chip_id in ["32", "33"]:
+                return "arm64-tx1"
+            if chip_id == "25":
+                return "arm64-xnx"
+            if chip_id != "24":  # need to expand later
+                return "unknown"
+
+            # TX2
+            return "arm64-tx2"  # need to expand later
+
+        soc_id_filepath = "/sys/devices/soc0/soc.id"
+        if _op.exists(soc_id_filepath):  # Orin
+            soc_id = int(open(soc_id_filepath, "rt").read())
+            if soc_id == 35:
+                return "arm64-orin"
+
+            # assume orin for now until further notice
+            return "arm64-orin"
+
+        else:  # maybe an RPi
 
             rpi_model_filepath = "/sys/firmware/devicetree/base/model"
 
@@ -52,21 +77,6 @@ def detect_machine():
                 return "arm64-xnx"
 
             return "unknown"  # unknown Raspberry Pi model
-
-        # Tegra
-        chip_id = _sp.check_output(["cat", tegra_chip_id_filepath]).decode().strip()
-        # We expect TK1 to respond '64', TX1 to respond '32', TX2 to respond '24'.
-        if chip_id == "64":
-            return "arm64-tk1"  # obsolete
-        if chip_id in ["32", "33"]:
-            return "arm64-tx1"
-        if chip_id == "25":
-            return "arm64-xnx"
-        if chip_id != "24":  # need to expand later
-            return "unknown"
-
-        # TX2
-        return "arm64-tx2"  # need to expand later
 
     if machine_type != "x86_64":
         return "unknown"  # need to expand later
