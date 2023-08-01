@@ -41,7 +41,7 @@ def get_mem_info(print_bars=False):
         res = None
 
     if print_bars and res:
-        from tqdm import tqdm
+        from tqdm.auto import tqdm
 
         MB = 1024 * 1024
 
