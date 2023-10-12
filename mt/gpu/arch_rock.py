@@ -1,4 +1,4 @@
-"""Module specific to arm64-rpi arch."""
+"""Module specific to arm64-r5b arch."""
 
 import psutil as _pu
 import subprocess as _sp
@@ -14,8 +14,8 @@ def get_mem_info_impl(arch):
         "cpu_mem_total": mem_info.total,
     }
 
-    rpi_model_filepath = "/sys/firmware/devicetree/base/model"
-    rpi_model = _sp.check_output(["cat", rpi_model_filepath]).decode().strip()
-    res["model"] = rpi_model
+    r5b_model_filepath = "/sys/firmware/devicetree/base/model"
+    r5b_model = _sp.check_output(["cat", r5b_model_filepath]).decode().strip()
+    res["model"] = r5b_model
 
     return res

@@ -33,6 +33,10 @@ def get_mem_info(print_bars=False):
         from .arch_rpi import get_mem_info_impl
 
         res = get_mem_info_impl(arch)
+    elif arch in ["arm64-r5b"]:
+        from .arch_rock import get_mem_info_impl
+
+        res = get_mem_info_impl(arch)
     elif arch in ["arm64-tx1", "arm64-tx2", "arm64-xnx", "arm64-orin"]:
         from .arch_tegra import get_mem_info_impl
 

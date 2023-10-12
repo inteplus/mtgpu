@@ -11,13 +11,14 @@ def detect_machine():
 
     Returns
     -------
-    ['arm64-rpi', 'arm64-tx1', 'arm64-tx2', 'arm64-j43', 'amd64-cpu', 'amd64-nvidia', 'amd64-amd']
+    ['arm64-r5b', 'arm64-rpi', 'arm64-tx1', 'arm64-tx2', 'arm64-j43', 'amd64-cpu', 'amd64-nvidia', 'amd64-amd']
         a unique name identifying the machine architecture
 
     Notes
     -----
     The names correspond to the following architectures:
 
+    - "arm64-r5b" : a Rock 5B
     - "arm64-rp4" : a Raspberry Pi Model 4
     - "arm64-rp3" : a Raspberry Pi Model 3
     - "arm64-tk1" : an Nvidia Tegra K1
@@ -34,7 +35,6 @@ def detect_machine():
         tegra_chip_id_filepath = "/sys/module/tegra_fuse/parameters/tegra_chip_id"
 
         if _op.exists(tegra_chip_id_filepath):  # Tegra TK1, TX1, TX2 or XNX
-
             chip_id = _sp.check_output(["cat", tegra_chip_id_filepath]).decode().strip()
             # We expect TK1 to respond '64', TX1 to respond '32', TX2 to respond '24'.
             if chip_id == "64":
@@ -58,8 +58,7 @@ def detect_machine():
             # assume orin for now until further notice
             return "arm64-orin"
 
-        else:  # maybe an RPi
-
+        else:  # maybe an RPi or a Rock 5B
             rpi_model_filepath = "/sys/firmware/devicetree/base/model"
 
             if not _op.exists(rpi_model_filepath):
@@ -72,6 +71,9 @@ def detect_machine():
 
             if rpi_model.startswith("Raspberry Pi 3"):
                 return "arm64-rp3"
+
+            if rpi_model.startswith("Radxa ROCK 5B"):
+                return "arm64-r5b"
 
             if rpi_model.startswith("NVIDIA Jetson Xavier NX Developer Kit"):
                 return "arm64-xnx"
