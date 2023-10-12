@@ -15,7 +15,9 @@ def get_mem_info_impl(arch):
     }
 
     r5b_model_filepath = "/sys/firmware/devicetree/base/model"
-    r5b_model = _sp.check_output(["cat", r5b_model_filepath]).decode().strip()
+    r5b_model = (
+        _sp.check_output(["cat", r5b_model_filepath]).decode().strip().strip("\0")
+    )
     res["model"] = r5b_model
 
     return res
