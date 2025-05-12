@@ -35,6 +35,7 @@ version_l4t_to_jetpack = {
     "34.0.1": "5.0",
     "35.1": "5.0.2",
     "35.3.1": "5.1.1",
+    "36.3.0": "6.0",
 }
 
 
@@ -58,6 +59,8 @@ def detect_l4t_version_range():
         return ["34.0.1"]
     if kernel_version.startswith("5.10.104-tegra"):
         return ["35.1", "35.3.1"]
+    if kernel_version.startswith("5.15.136-tegra"):
+        return ["36.3.0"]
     return "unknown"
 
 
