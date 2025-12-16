@@ -1,6 +1,5 @@
 """Module specific to amd64-nvidia arch."""
 
-
 import os
 import psutil as _pu
 
@@ -8,7 +7,7 @@ try:
     from pynvml import *
 except ImportError:
     raise RuntimeError(
-        "Package 'pynvml' is required on a machine with an Nvidia GPU card. Please install pynvml using pip."
+        "Package 'nvidia-ml-py' is required on a machine with an Nvidia GPU card. Please install pynvml using pip."
     )
 
 
