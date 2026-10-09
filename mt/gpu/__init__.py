@@ -8,7 +8,8 @@ __all__ = ["detect_machine", "get_mem_info", "sort_gpu_devices"]
 
 
 def get_mem_info(print_bars=False):
-    """Returns a dictionary containing information about detected CPU/GPU devices and their memory usage, or None if the architecture is unknown.
+    """Returns a dictionary containing information about detected CPU/GPU devices and their memory
+    usage, or None if the architecture is unknown.
 
     Parameters
     ----------
@@ -79,7 +80,8 @@ def get_mem_info(print_bars=False):
 
 
 def sort_gpu_devices():
-    """Sorts the GPU devices in decreasing order of free memory. Only effective with CUDA hardare."""
+    """Sorts the GPU devices in decreasing order of free memory. Only effective with CUDA
+    hardare."""
 
     arch = detect_machine()
     if arch == "amd64-nvidia":

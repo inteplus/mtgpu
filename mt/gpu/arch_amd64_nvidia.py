@@ -7,7 +7,8 @@ try:
     from pynvml import *
 except ImportError:
     raise RuntimeError(
-        "Package 'nvidia-ml-py' is required on a machine with an Nvidia GPU card. Please install pynvml using pip."
+        "Package 'nvidia-ml-py' is required on a machine with an Nvidia GPU card. "
+        "Please install pynvml using pip."
     )
 
 

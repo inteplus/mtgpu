@@ -17,7 +17,9 @@ setup(
         "psutil",  # for getting cpu memory usage
         "tqdm",  # nice printout
         # 'nvidia-ml-py', # if you have nvidia gpus, install this package
-        # 'rocm-smi', # if you have amdgpu cards, the rocm image should contain this package. Otherwise install it.
+        # 'rocm-smi',
+        # if you have amdgpu cards, the rocm image should contain this package.
+        # Otherwise install it.
     ],
     url="https://github.com/inteplus/mtgpu",
     project_urls={

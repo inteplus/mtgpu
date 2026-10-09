@@ -12,7 +12,11 @@ except ImportError:
     try:
         import rocm_smi as rs
     except ImportError:
-        raise RuntimeError("Module 'rocm_smi.py' is required on a machine with an AMDGPU card. It should come with the rocm docker image by default. Please consult rocm to install it.")
+        raise RuntimeError(
+            "Module 'rocm_smi.py' is required on a machine with an AMDGPU card. "
+            "It should come with the rocm docker image by default. "
+            "Please consult rocm to install it."
+        )
 
 if hasattr(rs, 'initializeRsmi'):
     rs.initializeRsmi()

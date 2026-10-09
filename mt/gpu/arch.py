@@ -11,7 +11,8 @@ def detect_machine():
 
     Returns
     -------
-    ['arm64-r5b', 'arm64-rpi', 'arm64-tx1', 'arm64-tx2', 'arm64-j43', 'amd64-cpu', 'amd64-nvidia', 'amd64-amd']
+    ['arm64-r5b', 'arm64-rpi', 'arm64-tx1', 'arm64-tx2', 'arm64-j43', 'amd64-cpu',
+     'amd64-nvidia', 'amd64-amd']
         a unique name identifying the machine architecture
 
     Notes
