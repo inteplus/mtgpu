@@ -20,7 +20,8 @@ __all__ = ["detect_machine", "get_mem_info", "sort_gpu_devices"]
 
 def get_mem_info(print_bars=False):
     """Returns a dictionary containing information about detected CPU/GPU devices and their memory
-    usage, or None if the architecture is unknown.
+    usage, or None if the architecture is unknown or
+    not supported.
 
     The architecture is detected with :func:`detect_machine`. The returned dictionary has the
     following keys. All memory sizes are in bytes.
@@ -45,14 +46,13 @@ def get_mem_info(print_bars=False):
     Returns
     -------
     dict or None
-        the dictionary described above, or None if the architecture is 'unknown'
+        the dictionary described above, or None if the architecture is 'unknown' or has no
+        implementation (for example 'arm64-tk1')
 
     Raises
     ------
     RuntimeError
         on an Nvidia (resp. AMD) machine, if `pynvml` (resp. `rocm_smi`) is not installed
-    UnboundLocalError
-        if the detected architecture is 'arm64-tk1', which is not handled
 
     See Also
     --------
@@ -85,7 +85,7 @@ def get_mem_info(print_bars=False):
         from .arch_tegra import get_mem_info_impl
 
         res = get_mem_info_impl(arch)
-    elif arch == "unknown":
+    else:  # 'unknown' or an architecture without an implementation, e.g. 'arm64-tk1'
         res = None
 
     if print_bars and res:
