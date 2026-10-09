@@ -65,7 +65,7 @@ def get_mem_info(print_bars=False):
 
         if not is_cgpu:
             for i, gpu in enumerate(res["gpus"]):
-                gpu_desc = "gpu {} ({})".format(i, gpu["name"])
+                gpu_desc = f"gpu {i} ({gpu['name']})"
                 gpu_bar = tqdm(
                     desc=gpu_desc,
                     total=gpu["mem_total"] // MB,
