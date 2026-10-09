@@ -9,6 +9,8 @@ setup(
     name="mtgpu",
     description="Minh-Tri Pham's approach to detect gpu capacity",
     author="Minh-Tri Pham",
+    license="MIT",
+    license_files=["LICENSE"],
     packages=find_namespace_packages(include=["mt.*"]),
     scripts=[
         "scripts/detect_machine",
