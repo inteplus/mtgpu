@@ -1,4 +1,8 @@
-"""Module specific to amd64-nvidia arch."""
+"""Module specific to amd64-nvidia arch.
+
+It requires package `nvidia-ml-py` (module `pynvml`), otherwise importing this module raises
+:class:`RuntimeError`.
+"""
 
 import os
 import psutil as _pu
@@ -13,6 +17,16 @@ except ImportError:
 
 
 def get_mem_info_impl():
+    """Gets CPU and Nvidia GPU memory information. See :func:`mt.gpu.get_mem_info`.
+
+    Returns
+    -------
+    dict
+        a dictionary with keys 'cpu_mem_free', 'cpu_mem_used', 'cpu_mem_total' (bytes),
+        'cpu_mem_shared_with_gpu' (always False) and 'gpus'. Each GPU dictionary has keys 'name',
+        'driver_version', 'bus', 'mem_free', 'mem_used' and 'mem_total' (bytes), and 'fan_speed' if
+        available.
+    """
     res = {}
 
     mem_info = _pu.virtual_memory()
@@ -65,6 +79,12 @@ def get_mem_info_impl():
 
 
 def sort_cuda_devices():
+    """Sets `CUDA_VISIBLE_DEVICES` so that GPUs are ordered by decreasing free memory.
+
+    The environment variable of the current process is set to the comma-separated list of GPU
+    indices, from the one with the most free memory to the one with the least. Nothing is done if
+    there is no GPU. See :func:`mt.gpu.sort_gpu_devices`.
+    """
     gpus = get_mem_info_impl()["gpus"]
     if not gpus:
         return

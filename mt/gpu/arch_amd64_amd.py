@@ -1,4 +1,8 @@
-'''Module specific to amd64-amd arch.'''
+'''Module specific to amd64-amd arch.
+
+It requires the module `rocm_smi`, which comes with ROCm, to be importable (or to be found
+in `/opt/rocm/bin/`), otherwise importing this module raises :class:`RuntimeError`.
+'''
 
 
 import subprocess as _sp
@@ -22,6 +26,16 @@ if hasattr(rs, 'initializeRsmi'):
     rs.initializeRsmi()
 
 def get_mem_info_impl():
+    '''Gets CPU and AMD GPU memory information. See :func:`mt.gpu.get_mem_info`.
+
+    Returns
+    -------
+    dict
+        a dictionary with keys 'cpu_mem_free', 'cpu_mem_used', 'cpu_mem_total' (bytes),
+        'cpu_mem_shared_with_gpu' (always False) and 'gpus'. Each GPU dictionary has keys 'bus',
+        'name', 'fan_speed', 'mem_free', 'mem_used' and 'mem_total' (bytes), and 'driver_version'
+        if known.
+    '''
     res = {}
 
     mem_info = _pu.virtual_memory()

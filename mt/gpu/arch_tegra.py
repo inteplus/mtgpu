@@ -1,4 +1,10 @@
-"""Module specific to Nvidia Tegra/Jetson arch."""
+"""Module specific to Nvidia Tegra/Jetson arch.
+
+Besides memory information, it knows how to map the Linux kernel version to the L4T (Linux for
+Tegra) release and the corresponding JetPack version. The dictionaries are `arch2gpu`, mapping
+an architecture name to the GPU name, and `version_l4t_to_jetpack`, mapping an L4T version to a
+JetPack version.
+"""
 
 
 from platform import uname
@@ -40,6 +46,15 @@ version_l4t_to_jetpack = {
 
 
 def detect_l4t_version_range():
+    """Detects the range of L4T versions from the Linux kernel version.
+
+    Returns
+    -------
+    list or str
+        a list of one or two L4T version strings `[first, last]` (a range of versions sharing the
+        same kernel), or the string 'unknown' if the kernel version is not recognised. The strings
+        are keys of `version_l4t_to_jetpack`.
+    """
     kernel_version = uname().release
     if kernel_version.startswith("4.4.38"):
         return ["28.2.1", "28.2.1"]
@@ -65,6 +80,27 @@ def detect_l4t_version_range():
 
 
 def get_mem_info_impl(arch):
+    """Gets memory information of a Jetson device. See :func:`mt.gpu.get_mem_info`.
+
+    The GPU shares the system memory with the CPU, so the GPU memory figures are the same as the CPU
+    ones.
+
+    Parameters
+    ----------
+    arch : str
+        the architecture name, one of 'arm64-tk1', 'arm64-tx1', 'arm64-tx2', 'arm64-xnx' and
+        'arm64-orin'. For 'arm64-orin', the GPU name is read from the device tree.
+
+    Returns
+    -------
+    dict
+        a dictionary with keys 'cpu_mem_free', 'cpu_mem_used', 'cpu_mem_total' (bytes),
+        'cpu_mem_shared_with_gpu' (always True), 'gpus' (a list of one GPU dictionary with keys
+        'name', 'mem_free', 'mem_used' and 'mem_total'), 'l4t' (see
+        :func:`detect_l4t_version_range`)
+        and, if the L4T version is recognised, 'jetpack' (list of the corresponding JetPack
+        versions)
+    """
     res = {}
 
     mem_info = _pu.virtual_memory()

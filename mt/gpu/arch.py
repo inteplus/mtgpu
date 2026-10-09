@@ -1,4 +1,8 @@
-"""Module to detect the machine architecture."""
+"""Module to detect the machine architecture.
+
+The function :func:`detect_machine` identifies the machine from the CPU type, a few system files
+and the presence of `nvidia-smi` or `rocm-smi`. Hence its result is machine-dependent.
+"""
 
 
 from platform import uname
@@ -11,9 +15,11 @@ def detect_machine():
 
     Returns
     -------
-    ['arm64-r5b', 'arm64-rpi', 'arm64-tx1', 'arm64-tx2', 'arm64-j43', 'amd64-cpu',
-     'amd64-nvidia', 'amd64-amd']
-        a unique name identifying the machine architecture
+    str
+        a unique name identifying the machine architecture. It is one of 'arm64-r5b', 'arm64-rp3',
+        'arm64-rp4', 'arm64-tk1', 'arm64-tx1', 'arm64-tx2', 'arm64-xnx', 'arm64-orin', 'amd64-cpu',
+        'amd64-nvidia', 'amd64-amd' (see the notes below) or 'unknown' if the machine is not
+        recognised.
 
     Notes
     -----
@@ -29,7 +35,16 @@ def detect_machine():
     - "arm64-orin" : an Nvidia Jetson Nano Orin module
     - "amd64-cpu" : an amd64 PC without any graphic card
     - "amd64-nvidia" : an amd64 PC with Nvidia graphic card(s)
-    - "amd64-amd" : and amd64 PC with AMDGPU card(s)
+    - "amd64-amd" : an amd64 PC with AMDGPU card(s)
+
+    On an aarch64 machine the architecture is read from system files (the Tegra chip id, the SoC id
+    or the device-tree model). On an x86_64 machine, 'amd64-nvidia' is returned if the command
+    `nvidia-smi` is found, else 'amd64-amd' if `rocm-smi` is found, else 'amd64-cpu'. Any other CPU
+    type gives 'unknown'.
+
+    See Also
+    --------
+    mt.gpu.get_mem_info : memory information of the detected machine
     """
     machine_type = uname().machine
 

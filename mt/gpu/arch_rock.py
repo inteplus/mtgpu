@@ -5,6 +5,19 @@ import subprocess as _sp
 
 
 def get_mem_info_impl(arch):
+    """Gets CPU memory information of a Rock 5B board. See :func:`mt.gpu.get_mem_info`.
+
+    Parameters
+    ----------
+    arch : str
+        the architecture name, not used
+
+    Returns
+    -------
+    dict
+        a dictionary with keys 'gpus' (always an empty list), 'cpu_mem_free', 'cpu_mem_used',
+        'cpu_mem_total' (bytes) and 'model' (the board model read from the device tree)
+    """
     mem_info = _pu.virtual_memory()
 
     res = {
